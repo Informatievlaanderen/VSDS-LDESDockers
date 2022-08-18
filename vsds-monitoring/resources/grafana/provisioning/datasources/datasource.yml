@@ -1,0 +1,14 @@
+# config file version
+apiVersion: 1
+
+# list of datasources to insert/update
+datasources:
+- name: Prometheus
+  access: proxy
+  type: prometheus
+  url: http://prometheus:9090
+  isDefault: true
+- name: Jaeger
+  access: proxy
+  type: jaeger
+  url: http://jaeger:16686
