@@ -8,8 +8,26 @@ scrape_configs:
     # scheme defaults to 'http'.
     static_configs:
       - targets: ['otel-collector:8888']
-  - job_name: 'ldes-server'
+  - job_name: 'local-ldes-server'
     scrape_interval: 1s
     metrics_path: "/actuator/prometheus"
     static_configs:
       - targets: ['host.docker.internal:8080']
+  - job_name: 'gipod-dev-aws'
+    scrape_interval: 1s
+    metrics_path: "/actuator/prometheus"
+    scheme: "https"
+    static_configs:
+      - targets: ['gipod.smartdataspace.dev-vlaanderen.be']
+  - job_name: 'gipod-test-aws'
+    scrape_interval: 1s
+    metrics_path: "/actuator/prometheus"
+    scheme: "https"
+    static_configs:
+      - targets: ['gipod.smartdataspace.test-vlaanderen.be']
+  - job_name: 'gipod-beta-aws'
+    scrape_interval: 1s
+    metrics_path: "/actuator/prometheus"
+    scheme: "https"
+    static_configs:
+      - targets: ['gipod.smartdataspace.beta-vlaanderen.be']

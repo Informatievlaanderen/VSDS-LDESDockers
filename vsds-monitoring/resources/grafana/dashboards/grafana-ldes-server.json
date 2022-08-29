@@ -51,7 +51,7 @@
         "defaults": {
           "color": {
             "fixedColor": "super-light-green",
-            "mode": "fixed"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisCenteredZero": false,
@@ -148,7 +148,7 @@
         "defaults": {
           "color": {
             "fixedColor": "super-light-green",
-            "mode": "fixed"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisCenteredZero": false,
@@ -190,10 +190,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -296,6 +292,6 @@
   "timezone": "",
   "title": "LDES Server",
   "uid": "9ZvyDXiVk",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
