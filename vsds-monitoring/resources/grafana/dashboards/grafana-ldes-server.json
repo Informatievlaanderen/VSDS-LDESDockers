@@ -56,7 +56,6 @@
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "gfdf",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -229,6 +228,18 @@
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "rabbitmq_queue_messages{instance=~\"$instance\"}",
+          "hide": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Ldes Member in Fragmentation Queue",
@@ -482,11 +493,19 @@
         "current": {
           "selected": true,
           "text": [
-            "All"
+            "otel-collector:8888",
+            "host.docker.internal:8080",
+            "host.docker.internal:15692"
           ],
           "value": [
-            "$__all"
+            "otel-collector:8888",
+            "host.docker.internal:8080",
+            "host.docker.internal:15692"
           ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(instance)",
         "hide": 0,
@@ -508,13 +527,13 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "LDES Server",
   "uid": "9ZvyDXiVk",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }
