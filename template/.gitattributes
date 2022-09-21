@@ -1,0 +1,4 @@
+# core.autocrlf=true
+* text=auto
+# Keep line endings in bash files to the UNIX standard
+*.sh text eol=lf
