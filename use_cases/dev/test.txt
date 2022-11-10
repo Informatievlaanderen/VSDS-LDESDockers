@@ -1,0 +1,2 @@
+ide_binary="/home/metastable/opt/spring.sh"
+ide_test="test"

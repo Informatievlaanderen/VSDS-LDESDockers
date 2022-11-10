@@ -1,0 +1,5 @@
+# Contains configuration to setup your development environment
+ide: 
+  binary: /home/metastable/opt/spring.sh
+  workspace_arg:
+  extra_args:

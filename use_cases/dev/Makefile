@@ -5,14 +5,21 @@
 # SETUP
 #
 
+# Import development config
+cnf ?= development.env
+include $(cnf)
+export $(shell sed 's/=.*//' $(cnf))
+
 # Import container config
 cnf ?= config.env
 include $(cnf)
 export $(shell sed 's/=.*//' $(cnf))
+
 # Import deployment config
 dpl ?= deploy.env
 include $(dpl)
 export $(shell sed 's/=.*//' $(dpl))
+
 # Grep the version
 VERSION=$(shell ./version.sh)
 
@@ -28,6 +35,19 @@ help: ## This help message
 
 .DEFAULT_GOAL := help
 
+#
+# SETUP TASKS
+#
+setup: ## Clone the repo's and setup your IDE
+# 	@./scripts/yaml.sh parse_yaml development.yml
+# 	@echo IDE binary is $(ide_binary)
+	@echo Setting up working directory
+	@./scripts/make.sh create_work_dir
+
+	@echo Cloning server repo $(repositories_server_repository) to ./work/$(repositories_server_clone)
+	@./scripts/git.sh git-clone $(repositories_server_repository) ./work/$(repositories_server_clone)
+	@echo Checking out branch $(repositories_server_branch)
+	@./scripts/git.sh git-checkout-branch ./work/$(repositories_server_clone) $(repositories_server_branch)
 
 #
 # DOCKER TASKS
