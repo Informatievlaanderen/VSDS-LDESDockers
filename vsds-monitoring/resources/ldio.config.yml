@@ -1,0 +1,17 @@
+orchestrator:
+  pipelines:
+    - name: input
+      input:
+        name: be.vlaanderen.informatievlaanderen.ldes.ldio.LdioHttpIn
+        adapter:
+          name: be.vlaanderen.informatievlaanderen.ldes.ldi.RdfAdapter
+      outputs:
+        - name: be.vlaanderen.informatievlaanderen.ldes.ldio.LdioHttpOut
+          config:
+            endpoint: http://host.docker.internal:8080/examples
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

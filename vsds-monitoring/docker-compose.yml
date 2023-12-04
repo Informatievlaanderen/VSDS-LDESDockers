@@ -1,5 +1,78 @@
 version: '3.3'
 services:
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    volumes:
+      - ./resources/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+    restart: always
+    networks:
+      - ldes
+
+
+  grafana:
+    image: grafana/grafana
+    user: "472"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./resources/grafana/:/etc/grafana/
+    restart: always
+    networks:
+      - ldes
+
+  loki:
+    image: grafana/loki:2.9.0
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - ldes
+
+  ldes-server:
+    container_name: basic_ldes-server
+    image: ghcr.io/informatievlaanderen/ldes-server:20231204170417
+    environment:
+      - SPRING_CONFIG_LOCATION=/ldes-server/
+      - PYROSCOPE_CONFIGURATION_FILE=/ldes-server/pyroscope.properties
+    volumes:
+      - ./resources/ldes-server/ldes-server.config.yml:/ldes-server/application.yml:ro
+      - ./resources/ldes-server/pyroscope.properties:/ldes-server/pyroscope.properties:ro
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ldes-mongodb
+    networks:
+      - ldes
+  ldes-mongodb:
+    container_name: ldes-mongodb
+    image: mongo:6.0.4
+    ports:
+      - "27017:27017"
+    networks:
+      - ldes
+
+  pyroscope:
+    image: grafana/pyroscope:latest
+    ports:
+      - 4040:4040
+    networks:
+      - ldes
+
+  ldio:
+    image: ghcr.io/informatievlaanderen/ldi-orchestrator:20231123112932
+    volumes:
+      - ./resources/ldio.config.yml:/ldio/application.yml:ro
+    ports:
+      - "8081:8080"
+    networks:
+      - ldes
+
   jaeger:
     image: jaegertracing/all-in-one:1.37
     environment:
@@ -10,32 +83,8 @@ services:
       - "4319:4317"
       - "4320:4318"
       - "14250:14250"
+      - "9411:9411"
     networks:
-      - otel
-  prometheus:
-    image: prom/prometheus:v2.36.2
-    volumes:
-      - ./resources/:/etc/prometheus/
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-    ports:
-      - "9090:9090"
-    networks:
-      - otel
-    restart: always
-  grafana:
-    image: grafana/grafana
-    user: "472"
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./resources/grafana/:/etc/grafana/
-    networks:
-      - otel
-    restart: always
-
+      - ldes
 networks:
-  otel:
-    driver: bridge
+  ldes:

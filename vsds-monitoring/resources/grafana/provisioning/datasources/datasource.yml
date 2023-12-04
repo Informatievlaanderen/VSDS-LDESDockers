@@ -6,9 +6,17 @@ datasources:
 - name: Prometheus
   access: proxy
   type: prometheus
-  url: http://prometheus:9090
+  url: http://host.docker.internal:9090
   isDefault: true
 - name: Jaeger
   access: proxy
   type: jaeger
-  url: http://jaeger:16686
+  url: http://host.docker.internal:16686
+- name: Loki
+  type: loki
+  access: proxy
+  orgId: 1
+  url: http://host.docker.internal:3100
+  basicAuth: false
+  version: 1
+  editable: false
